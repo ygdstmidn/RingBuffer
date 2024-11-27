@@ -6,6 +6,13 @@
 ~~いっぱいになったときにPutできなくなる~~\
 **いっぱいになった後，最初の1文字が上書きされ続ける**(やばすぎやろ...)
 
+## License
+MIT License
+
+Copyright © 2024 ygdstmidn
+
+see [LICENSE](./LICENSE)
+
 ## 使用例
 
 ### 初期化

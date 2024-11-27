@@ -1,3 +1,6 @@
+/// @copyright Copyright © 2024 ygdstmidn
+/// @license This file is released under the MIT License(https://opensource.org/license/mit)
+
 #include "RingBuffer.h"
 
 int RingBuffer_Init(RingBuffer *rb, unsigned int size)
