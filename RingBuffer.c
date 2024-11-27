@@ -37,3 +37,9 @@ void RingBuffer_Put(RingBuffer *rb, unsigned char data)
     rb->head = (rb->head + rb->isntFull) % rb->size;
     rb->isntFull = (rb->head != rb->tail);
 }
+
+void RingBuffer_HeadMove(RingBuffer *rb)
+{
+    rb->head = (rb->head + rb->isntFull) % rb->size;
+    rb->isntFull = (rb->head != rb->tail);
+}
