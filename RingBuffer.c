@@ -18,10 +18,6 @@ void RingBuffer_Destroy(RingBuffer *rb)
 {
     free(rb->buffer);
     rb->buffer = NULL;
-    rb->size = 0;
-    rb->head = 0;
-    rb->tail = 0;
-    rb->isntFull = 1;
 }
 
 unsigned char RingBuffer_Get(RingBuffer *rb)

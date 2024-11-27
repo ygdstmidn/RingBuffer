@@ -43,8 +43,5 @@ int main()
 
     RingBuffer_Destroy(&rb2);
 
-    RingBuffer rb;
-    RingBuffer_Init(&rb, 256);
-
     return 0;
 }

@@ -27,6 +27,18 @@ void IRQ_handler()
 ```
 割り込み処理関数で使うことを想定
 
+<details>
+<summary>実際の使用例</summary>
+
+```c
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  RingBuffer_HeadMove(&uart2_rxbuf);
+  HAL_UART_Receive_IT(&huart2, uart2_rxbuf.buffer + uart2_rxbuf.head, 1);
+}
+```
+</details>
+
 ### Get
 ```c
 unsigned char data[256];
@@ -66,6 +78,29 @@ __enable_irq();
 ```
 こっちの方がいいかなぁ?
 
+<details>
+<summary>実際の使用例</summary>
+
+```c
+unsigned char recievedata[UART_RXBUF_SIZE];
+unsigned int index = 0;
+__disable_irq();
+while (uart2_rxbuf.head != uart2_rxbuf.tail && uart2_rxbuf.isntFull == 1)
+{
+    recievedata[index++] = RingBuffer_Get(&uart2_rxbuf);
+    __enable_irq();
+    __disable_irq();
+}
+if (uart2_rxbuf.isntFull == 0)
+{
+    RingBuffer_Destroy(&uart2_rxbuf);
+    RingBuffer_Init(&uart2_rxbuf, UART_RXBUF_SIZE);
+    index = 0;
+}
+__enable_irq();
+```
+</details>
+
 ### メモリ開放
 ```c
 RingBuffer_Destroy(&rb);
@@ -81,6 +116,12 @@ if(rb.isntFull == 0)
 バッファがあふれたらバッファを作り直すことをお勧めする\
 というか，これが起きないようにバッファは大きめに確保しようね☆\
 作り直すときは割り込みを無効にしてからやらないと
+
+### HeadMove
+HALの割り込みの仕様上，割り込みで直接RingBufferにデータを入れた後，割り込み完了関数でHeadを動かす必要がある\
+```c
+RingBuffer_HeadMove(&rb);
+```
 
 ## memo
 ```terminal
